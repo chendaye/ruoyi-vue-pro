@@ -20,3 +20,39 @@ git checkout dev  #切换到dev
 git rebase master  #把刚刚拉取的更新merge到dev分支
 
 ```
+
+# 运行项目
+
+## 安装Apifox
+
+[下载地址](https://apifox.com/?utm_source=baidu_pinzhuan&utm_medium=sem&utm_campaign=pinzhuan&utm_content=pinzhuan&utm_term=apifox)
+
+## 安装Mysql
+
+### 麒麟
+[参考](https://blog.csdn.net/LogosTR_/article/details/125602116)
+
+```bash
+sudo apt update
+sudo apt install mysql-server
+mysql --version
+service mysql status
+
+# 配置
+sudo mysql
+use mysql;
+select user, host, plugin from user;
+# 将root对应的plugin由 auth_socket 改为 mysql_native_password 即使是mysql8.0也是，否则影响后续远程连接:
+#MySQL8.0必须先执行此步骤设置密码，MySQL5.7可以选择先安装下面的secure！！！
+alter user 'root'@'localhost' identified with mysql_native_password by 'root';
+
+flush privileges;
+
+exit;
+
+```
+### MAC
+
+### DataGrip
+
+[下载地址](https://www.jetbrains.com/datagrip/download/other.html)
