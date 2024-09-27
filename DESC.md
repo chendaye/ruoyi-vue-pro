@@ -26,6 +26,7 @@ git rebase master  #把刚刚拉取的更新merge到dev分支
 ## 安装Apifox
 
 [下载地址](https://apifox.com/?utm_source=baidu_pinzhuan&utm_medium=sem&utm_campaign=pinzhuan&utm_content=pinzhuan&utm_term=apifox)
+[apt清华源](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)
 
 ## 安装Mysql
 
@@ -56,3 +57,15 @@ exit;
 ### DataGrip
 
 [下载地址](https://www.jetbrains.com/datagrip/download/other.html)
+
+## 安装Redis
+
+[参考](https://redis.com.cn/linux-install-redis.html)
+
+```bash
+wget http://download.redis.io/redis-stable.tar.gz
+tar -xzvf redis-stable.tar.gz
+cd redis-stable
+make
+make install
+```
