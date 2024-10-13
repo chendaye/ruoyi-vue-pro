@@ -19,6 +19,8 @@ git merge upstream/master  #合并到本地master
 git checkout dev  #切换到dev
 git rebase master  #把刚刚拉取的更新merge到dev分支
 
+
+
 ```
 
 # 运行后端项目
@@ -120,3 +122,7 @@ pnpm install
 npm run dev
 
 ```
+
+## Rebel 插件热加载
+
+[2022.4.1 版本]( https://plugins.jetbrains.com/plugin/4441-jrebel-and-xrebel/versions)
