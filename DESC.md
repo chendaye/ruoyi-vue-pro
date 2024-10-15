@@ -19,9 +19,11 @@ git merge upstream/master  #合并到本地master
 git checkout dev  #切换到dev
 git rebase master  #把刚刚拉取的更新merge到dev分支
 
+
+
 ```
 
-# 运行项目
+# 运行后端项目
 
 ## 安装Apifox
 
@@ -62,10 +64,65 @@ exit;
 
 [参考](https://redis.com.cn/linux-install-redis.html)
 
+[官网](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-from-source/)
 ```bash
 wget http://download.redis.io/redis-stable.tar.gz
 tar -xzvf redis-stable.tar.gz
 cd redis-stable
 make
+make BUILD_TLS=yes
 make install
+
+
+# 运行
+redis-server &
+redis-server /etc/redis.conf
 ```
+
+# 运行前端项目
+
+## 安装node
+
+[参考](https://www.iocoder.cn/NodeJS/mac-install/)
+
+> coke
+
+
+### nvm
+
+```bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+# or
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+
+# 验证
+nvm --version
+```
+
+## node
+
+```bash
+# 先安装python 3.12
+
+nvm install stable
+```
+
+## 启动项目
+
+```bash
+git clone https://github.com/yudaocode/yudao-ui-admin-vue3.git
+
+# 安装 pnpm，提升依赖的安装速度
+npm config set registry https://registry.npmmirror.com
+npm install -g pnpm
+# 安装依赖
+pnpm install
+
+# 启动服务
+npm run dev
+
+```
+
+## Rebel 插件热加载
+
+[2022.4.1 版本]( https://plugins.jetbrains.com/plugin/4441-jrebel-and-xrebel/versions)
