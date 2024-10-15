@@ -70,6 +70,8 @@ wget http://download.redis.io/redis-stable.tar.gz
 tar -xzvf redis-stable.tar.gz
 cd redis-stable
 make
+
+sudo make MALLOC=libc
 make BUILD_TLS=yes
 make install
 
@@ -105,6 +107,13 @@ nvm --version
 # 先安装python 3.12
 
 nvm install stable
+
+node -v
+npm -v
+
+# 安装 pnpm，提升依赖的安装速度
+npm config set registry https://registry.npmmirror.com
+npm install -g pnpm
 ```
 
 ## 启动项目
@@ -112,9 +121,7 @@ nvm install stable
 ```bash
 git clone https://github.com/yudaocode/yudao-ui-admin-vue3.git
 
-# 安装 pnpm，提升依赖的安装速度
-npm config set registry https://registry.npmmirror.com
-npm install -g pnpm
+
 # 安装依赖
 pnpm install
 
@@ -125,4 +132,4 @@ npm run dev
 
 ## Rebel 插件热加载
 
-[2022.4.1 版本]( https://plugins.jetbrains.com/plugin/4441-jrebel-and-xrebel/versions)
+[2022.4.1 版本](https://plugins.jetbrains.com/plugin/4441-jrebel-and-xrebel/versions)
