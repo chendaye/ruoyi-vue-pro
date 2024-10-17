@@ -140,3 +140,10 @@ npm run dev
 
 ### 使用
 > 点击 Debug With JRebel 按钮； 使用 JRebel启动项目 
+
+## 运行小程序
+
+[uni-app官网](https://uniapp.dcloud.net.cn/quickstart.html)
+
+# 管理后端
+## 新建 demo模块
