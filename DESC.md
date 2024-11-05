@@ -81,6 +81,29 @@ redis-server &
 redis-server /etc/redis.conf
 ```
 
+## Rebel 插件热加载
+
+### 安装
+[2022.4.1 版本](https://plugins.jetbrains.com/plugin/4441-jrebel-and-xrebel/versions)
+
+> 激活地址：https://jrebel.qekang.com/1e67ec1b-122f-4708-87d0-c1995dc0cdaa
+> 点击 Work Offine 按钮，设置为离线模式
+
+### 使用
+> 点击 Debug With JRebel 按钮； 使用 JRebel启动项目
+
+
+## 启动问题处理
+
+> 程序包cn.iocoder.yudao.framework.test.core.ut不存在
+
+先编译安装一次
+
+```bash
+# 先编译 安装一次
+mvn clean install package '-Dmaven.test.skip=true'
+```
+
 # 运行前端项目
 
 ## 安装node
@@ -130,18 +153,9 @@ npm run dev
 
 ```
 
-## Rebel 插件热加载
 
-### 安装
-[2022.4.1 版本](https://plugins.jetbrains.com/plugin/4441-jrebel-and-xrebel/versions)
 
-> 激活地址：https://jrebel.qekang.com/1e67ec1b-122f-4708-87d0-c1995dc0cdaa
-> 点击 Work Offine 按钮，设置为离线模式
-
-### 使用
-> 点击 Debug With JRebel 按钮； 使用 JRebel启动项目 
-
-## 运行小程序
+# 运行小程序
 
 [uni-app官网](https://uniapp.dcloud.net.cn/quickstart.html)
 
