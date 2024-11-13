@@ -25,6 +25,10 @@ git rebase master  #把刚刚拉取的更新merge到dev分支
 
 # 运行后端项目
 
+## 开发文档
+
+[开发文档](https://doc.iocoder.cn/feature/)
+
 ## 安装Apifox
 
 [下载地址](https://apifox.com/?utm_source=baidu_pinzhuan&utm_medium=sem&utm_campaign=pinzhuan&utm_content=pinzhuan&utm_term=apifox)
@@ -159,5 +163,47 @@ npm run dev
 
 [uni-app官网](https://uniapp.dcloud.net.cn/quickstart.html)
 
-# 管理后端
+```bash
+# 安装依赖
+pnpm install
+
+# tab 栏运行
+```
+
+# 后端开发
+## 结构理解
+### yudao-dependencies
+> Maven 依赖版本管理
+
+### 业务功能模块：yudao-module-xxx
+
+### 框架封装：yudao-framework
+
+> 技术组件：技术相关的组件封装，例如说 MyBatis、Redis 等等
+
+> 业务组件：业务相关的组件封装，例如说数据字典、操作日志等等。如果是业务组件，名字会包含 biz 关键字
+
+> 每个组件，包含两部分：
+
+- core 包：组件的核心封装，拓展相关的功能。
+- config 包：组件的 Spring Boot 自动配置。
+
+## 管理后台/服务端：yudao-server
+
+> 每个模块包含两个 Maven Module，分别是：
+
+- yudao-module-xxx-api	提供给其它模块的 API 定义
+- yudao-module-xxx-biz	模块的功能的具体实现
+
+
+> 例如说，yudao-module-infra 想要访问 yudao-module-system 的用户、部门等数据，需要引入 yudao-module-system-api 子模块
+
+疑问：为什么设计 `yudao-module-xxx-api` 模块呢？
+
+明确需要提供给其它模块的 API 定义，方便未来迁移微服务架构。
+模块之间可能会存在相互引用的情况，虽然说从系统设计上要尽量避免，但是有时在快速迭代的情况下，可能会出现。此时，通过只引用对方模块的 API 子模块，解决相互引用导致 Maven 无法打包的问题。
+
+
+> yudao-module-xxx-api 子模块的项目结构如下
+
 ## 新建 demo模块
