@@ -206,4 +206,49 @@ pnpm install
 
 > yudao-module-xxx-api 子模块的项目结构如下
 
+![img.png](.image/img.png)
+![img.png](.image/img2.png)
+
+> yudao-module-xxx-biz 子模块的项目结构如下：
+
+![img.png](.image/img3.png)
+
+![img.png](.image/img4.png)
+
+```
+为什么 Controller 分成 Admin 和 App 两种？
+
+提供给 Admin 和 App 的 RESTful API 接口是不同的，拆分后更加清晰。
+
+疑问：为什么 VO 分成 Admin 和 App 两种？
+
+相同功能的 RESTful API 接口，对于 Admin 和 App 传入的参数、返回的结果都可能是不同的。例如说，Admin 查询某个用户的基本信息时，可以返回全部字段；而 App 查询时，不会返回 mobile 手机等敏感字段。
+
+疑问：为什么 DO 不作为 Controller 的出入参？
+
+明确每个 RESTful API 接口的出入参。例如说，创建部门时，只需要传入 name、parentId 字段，使用 DO 接参就会导致 type、createTime、creator 等字段可以被传入，导致前端同学一脸懵逼。
+每个 RESTful API 有自己独立的 VO，可以更好的设置 Swagger 注解、Validator 校验规则，而让 DO 保持整洁，专注映射好数据库表。
+疑问：为什么操作 Redis 需要通过 RedisDAO？
+
+
+Service 直接使用 RedisTemplate 操作 Redis，导致大量 Redis 的操作细节和业务逻辑杂糅在一起，导致代码不够整洁。通过 RedisDAO 类，将每个 Redis Key 像一个数据表一样对待，清晰易维护。
+```
+
+> 总结来说，每个模块采用三层架构 + 非严格分层，如下图所示
+
+![img.png](.image/img5.png)
+
+```
+疑问：如果 message 需要跨模块共享，类似 api 的效果，可以怎么做？
+
+可以在 yudao-module-xxx-api 子模块下，新建一个 message 包，可参考 MemberUserCreateMessage 类。
+
+```
+
+>  yudao-server
+
+该模块是后端 Server 的主项目，通过引入需要 yudao-module-xxx 业务模块，从而实现提供 RESTful API 给 yudao-ui-admin-vue3、yudao-mall-uniapp 等前端项目。
+
+本质上来说，它就是个空壳（容器）！如下图所示
+
 ## 新建 demo模块
