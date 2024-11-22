@@ -251,4 +251,9 @@ Service 直接使用 RedisTemplate 操作 Redis，导致大量 Redis 的操作�
 
 本质上来说，它就是个空壳（容器）！如下图所示
 
-## 新建 demo模块
+# 开发手册
+
+## 新建模块
+
+[新建模块](https://doc.iocoder.cn/module-new/#_1-%E6%96%B0%E5%BB%BA-demo-%E6%A8%A1%E5%9D%97)
+
