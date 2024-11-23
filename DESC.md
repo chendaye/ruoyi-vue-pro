@@ -257,3 +257,75 @@ Service 直接使用 RedisTemplate 操作 Redis，导致大量 Redis 的操作�
 
 [新建模块](https://doc.iocoder.cn/module-new/#_1-%E6%96%B0%E5%BB%BA-demo-%E6%A8%A1%E5%9D%97)
 
+```
+① 新建模块 ： yudao-module-demo
+② 删除新建模块 src 文件
+③ 修改yudao-module-demo pom文件
+    
+    ① 在yudao-module-demo新建 yudao-module-demo-api 子模块
+        - parent 选择  yudao-module-demo
+    ② 修改yudao-module-demo-api pom 文件
+    ③ 【可选】在 yudao-module-demo-api模块，新建 cn.iocoder.yudao.module.demo 基础包，其中 demo 为模块名。之后，新建 api 和 enums 包
+    
+    ① 新建 yudao-module-demo-biz 子模块，整个过程和“新建 demo 模块”是一致的
+    ② 修改 pom
+    ③ 【必选】新建 cn.iocoder.yudao.module.demo 基础包，其中 demo 为模块名。之后，新建 controller.admin 和 controller.user 等包
+    
+```
+
+> yudao-module-demo
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>yudao</artifactId>
+        <groupId>cn.iocoder.boot</groupId>
+        <version>${revision}</version> <!-- 1. 修改 version 为 ${revision} -->
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>yudao-module-demo</artifactId>
+    <packaging>pom</packaging> <!-- 2. 新增 packaging 为 pom -->
+
+    <name>${project.artifactId}</name> <!-- 3. 新增 name 为 ${project.artifactId} -->
+    <description> <!-- 4. 新增 description 为该模块的描述 -->
+        demo 模块，主要实现 XXX、YYY、ZZZ 等功能。
+    </description>
+
+</project>
+```
+
+> yudao-module-demo-api
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>yudao-module-demo</artifactId>
+        <groupId>cn.iocoder.boot</groupId>
+        <version>${revision}</version> <!-- 1. 修改 version 为 ${revision} -->
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>yudao-module-demo-api</artifactId>
+    <packaging>jar</packaging> <!-- 2. 新增 packaging 为 jar -->
+
+    <name>${project.artifactId}</name> <!-- 3. 新增 name 为 ${project.artifactId} -->
+    <description> <!-- 4. 新增 description 为该模块的描述 -->
+        demo 模块 API，暴露给其它模块调用
+    </description>
+
+    <dependencies>  <!-- 5. 新增 yudao-common 依赖 -->
+        <dependency>
+            <groupId>cn.iocoder.boot</groupId>
+            <artifactId>yudao-common</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
+```
+
+## 新建 RESTful API 接口
