@@ -329,3 +329,83 @@ Service 直接使用 RedisTemplate 操作 Redis，导致大量 Redis 的操作�
 ```
 
 ## 新建 RESTful API 接口
+
+> 在 controller.admin 包，新建一个 DemoTestController 类，并新建一个 /demo/test/get 接口
+> 注意，/demo 是该模块所有 RESTful API 的基础路径，/test 是 Test 功能的基础路径。
+
+```java
+package cn.iocoder.yudao.module.demo.controller.admin;
+
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
+
+@Tag(name = "管理后台 - Test")
+@RestController
+@RequestMapping("/demo/test")
+@Validated
+public class DemoTestController {
+
+    @GetMapping("/get")
+    @Operation(summary = "获取 test 信息")
+    public CommonResult<String> get() {
+        return success("true");
+    }
+
+}
+```
+
+> 在 controller.app 包，新建一个 AppDemoTestController 类，并新建一个 /demo/test/get 接口。代码如下
+
+`
+在 Controller 的命名上，额外增加 App 作为前缀，一方面区分是管理后台还是用户 App 的 Controller，另一方面避免 Spring Bean 的名字冲突。
+
+可能你会奇怪，这里我们定义了两个 /demo/test/get 接口，会不会存在重复导致冲突呢？答案，当然是并不会。原因是：
+
+controller.admin 包下的接口，默认会增加 /admin-api，即最终的访问地址是 /admin-api/demo/test/get
+controller.app 包下的接口，默认会增加 /app-api，即最终的访问地址是 /app-api/demo/test/get
+`
+
+```java
+package cn.iocoder.yudao.module.demo.controller.app;
+
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
+
+@Tag(name = "用户 App - Test")
+@RestController
+@RequestMapping("/demo/test")
+@Validated
+public class AppDemoTestController {
+
+    @GetMapping("/get")
+    @Operation(summary = "获取 test 信息")
+    public CommonResult<String> get() {
+        return success("true");
+    }
+
+}
+```
+
+> 引入 demo 模块
+
+`在 yudao-server 模块的 pom.xml 文件，引入 yudao-module-demo-biz 子模块，并点击 Maven 刷新。如下图所示：`
+
+![img.png](.image/img11.png)
+
+`运行 YudaoServerApplication 类，将后端项目进行启动。启动完成后，使用浏览器打开 http://127.0.0.1:48080/doc.html (opens new window)地址，进入 Swagger 接口文档`
+
+## 代码生成
