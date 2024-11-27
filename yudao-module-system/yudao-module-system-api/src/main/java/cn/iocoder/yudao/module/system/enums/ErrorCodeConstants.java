@@ -163,7 +163,24 @@ public interface ErrorCodeConstants {
     // ========== 站内信发送 1-002-028-000 ==========
     ErrorCode NOTIFY_SEND_TEMPLATE_PARAM_MISS = new ErrorCode(1_002_028_000, "模板参数({})缺失");
 
-    // ========== 用户模块 1-002-028-000 ==========
+    // ========== 用户模块 777-01-000 ==========
     ErrorCode GROUP_NOT_EXISTS = new ErrorCode(777_01_000, "用户组不存在");
+
+    // ========== 学生班级 777-01-001 ==========
+    ErrorCode STUDENT_GRADE_NOT_EXISTS = new ErrorCode(777_01_001, "学生班级不存在");
+
+    // ========== 学生 777-01-002 ==========
+    ErrorCode STUDENT_NOT_EXISTS = new ErrorCode(777_01_002, "学生不存在");
+
+    // ========== 学生课程 777-01-003 ==========
+    ErrorCode STUDENT_COURSE_NOT_EXISTS = new ErrorCode(777_01_003, "学生课程不存在");
+
+    // ========== 分类 777-02 ==========
+    ErrorCode CATEGORY_NOT_EXISTS = new ErrorCode(777_02_000, "分类不存在");
+    ErrorCode CATEGORY_EXITS_CHILDREN = new ErrorCode(777_02_001, "存在存在子分类，无法删除");
+    ErrorCode CATEGORY_PARENT_NOT_EXITS = new ErrorCode(777_02_002,"父级分类不存在");
+    ErrorCode CATEGORY_PARENT_ERROR = new ErrorCode(777_01_002, "不能设置自己为父分类");
+    ErrorCode CATEGORY_NAME_DUPLICATE = new ErrorCode(777_02_004, "已经存在该名字的分类");
+    ErrorCode CATEGORY_PARENT_IS_CHILD = new ErrorCode(777_02_005, "不能设置自己的子Category为父Category");
 
 }

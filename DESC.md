@@ -408,7 +408,7 @@ public class AppDemoTestController {
 
 `运行 YudaoServerApplication 类，将后端项目进行启动。启动完成后，使用浏览器打开 http://127.0.0.1:48080/doc.html (opens new window)地址，进入 Swagger 接口文档`
 
-## 代码生成
+## 代码生成【表单】
 
 ### 建表
 
@@ -512,3 +512,520 @@ CREATE TABLE `system_group` (
 ③ 重新编译后后端，并进行启动。
 
 over！非常简单方便，即保证了代码的整洁规范，又不增加过多的开发量。
+
+## 代码生成【主子表】
+
+*主子表，指的是一个主表，被多个子表所关联，关联的关系是一对一或一对多。*
+
+例如说：主表是【学生】，子表可以是：
+
+子表是【成绩】，两者是“一对多”的关系，一个学生可以有多个成绩。
+子表是【班级】，两者是“一对一”的关系，一个学生只能有一个班级。
+下面，我们将演示“主子表”的使用，基于代码生成器，在 yudao-module-system 模块中，开发一个【学生】的功能。
+
+*目前只有 yudao-ui-admin-vue3 支持主子表，yudao-ui-admin-vue2、yudao-ui-admin-vben 正在适配中*
+
+### 标准模式
+
+对应 [基础设施 -> 代码生成案例 -> 主子表（标准）] 菜单。
+
+在新增和修改时，主表和子表在一个弹窗表单中，一起提交。
+
+### 内嵌模式
+
+对应 [基础设施 -> 代码生成案例 -> 主子表（内嵌）] 菜单。
+
+在「标准模式」的基础之上，列表 **内嵌** 子表的列表。如下
+
+### ERP模式
+
+对应 [基础设施 -> 代码生成案例 -> 主子表（ERP）] 菜单。
+
+主表和子表，独立列表，也独立表单
+
+### 表设计
+
+① 设计 **主表** 的数据库表名为 `system_student` 学生表
+
+```sql
+CREATE TABLE `system_student` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '名字',
+  `birthday` datetime NOT NULL COMMENT '出生日期',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '简介',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='学生表';
+```
+
+② 设计 **子表** 的数据库表名为 `system_student_course` 学生课程表
+
+```sql
+CREATE TABLE `system_student_course` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `student_id` bigint NOT NULL COMMENT '学生编号',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '名字',
+  `score` tinyint NOT NULL COMMENT '分数',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='学生课程表';
+```
+
+它和主表的关系是一对多，一个学生可以有多个课程，通过 `student_id` 字段进行关联
+
+③ 设计 **子表** 的数据表名为 `system_student_grade` 学生班级表
+
+```sql
+CREATE TABLE `system_student_grade` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `student_id` bigint NOT NULL COMMENT '学生编号',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '名字',
+  `teacher` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '班主任',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='学生班级表';
+```
+
+它和主表的关系是一对一，一个学生只能有一个班级，通过 `student_id` 字段进行关联。
+
+### 代码生成
+
+> 导入表
+
+点击 [基础设施 -> 代码生成] 菜单，点击 [基于 DB 导入] 按钮，选择 `system_student`、`system_student_course`、`system_student_grade` 表，后点击 [确认] 按钮。
+
+> 编辑配置（主表）
+
+点击 `system_student` 所在行的 [编辑] 按钮，修改生成配置。
+
+- 将【生成模版】设置为【主表（标准模式）】。🔥最最关键的步骤！
+- 将【上级菜单】设置为【系统管理】。
+- 将【前端类型】设置为“前端项目”对应的“前端类型”。例如说，我们这里演示的是 `yudao-ui-admin-vue3` 前端项目，则选择了【Vue3 Element Plus 标准模版】。
+
+> 编辑配置（子表）
+
+① 点击 `system_student_course` 所在行的 [编辑] 按钮，修改生成配置。
+
+- 将【生成模版】设置为【子表】。🔥最最关键的步骤！
+- 业务名：一般建议和【主表】保持一致，所以这里改成了 `student`。
+- 主表信息：将【关联的主表】设置为 `system_student` 表，将【子表关联的字段】设置为 `student_id` 字段，将【关联关系】设置为“一对多”。
+
+② 点击 `system_student_grade` 所在行的 [编辑] 按钮，修改生成配置。
+
+- （同上）将【生成模版】设置为【子表】。🔥最最关键的步骤！
+- （同上）业务名：一般建议和【主表】保持一致，所以这里改成了 `student`。
+- （基本同上，关联关系不同）主表信息：将【关联的主表】设置为 `system_student` 表，将【子表关联的字段】设置为 `student_id` 字段，将【关联关系】设置为“一对一”
+
+> 预览代码
+
+点击 `system_student` 所在行的 [预览] 按钮，在线预览生成的代码，检查是否符合预期。
+
+> 生成代码
+
+点击 `system_student` 所在行的 [生成] 按钮，生成代码。
+
+> 代码运行
+
+和 [《代码生成【单表】》](https://doc.iocoder.cn/new-feature/) 一致，就不重复赘述。
+
+copy system_student 表的代码就行
+
+
+
+## 代码生成【树表】
+
+树表，是在“单表”的基础上，增加了「树形结构」的功能。
+
+例如说：部门、分类等，是一个树形结构。我们可以通过树形结构，来展示部门、分类的层级关系。
+
+下面，我们将演示“树表”的使用，基于代码生成器，在 `yudao-module-system` 模块中，开发一个【**分类**】的功能。
+
+### 数据库表结构设计
+
+```sql
+CREATE TABLE `system_category` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '名字',
+  `parent_id` bigint NOT NULL COMMENT '父级编号',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='分类表';
+```
+
+其中 `parent_id` 字段，用于标识父级分类的编号。如果是顶级分类，则 `parent_id` 为 `0`
+
+
+
+### 代码生成
+
+> 导入表，点击 [基础设施 -> 代码生成] 菜单，点击 [基于 DB 导入] 按钮，选择 `system_category` 表，后点击 [确认] 按钮。
+
+> 编辑配置，点击 `system_category` 所在行的 [编辑] 按钮，修改生成配置。
+
+- 将【生成模版】设置为【树表】。🔥最最关键的步骤！
+- 树表信息：将【父编号字段】设置为 `parent_id` 字段，将【树名称字段】设置为 `name` 字段。
+- 将【上级菜单】设置为【系统管理】。
+- 将【前端类型】设置为“前端项目”对应的“前端类型”。例如说，我们这里演示的是 `yudao-ui-admin-vue3` 前端项目，则选择了【Vue3 Element Plus 标准模版】。
+
+> 预览代码：点击 `system_category` 所在行的 [预览] 按钮，在线预览生成的代码，检查是否符合预期
+
+> 生成代码：点击 `system_category` 所在行的 [生成] 按钮，生成代码
+
+> 代码运行
+
+## 用户体系
+
+- AdminUser 管理员用户，前端访问 [`yudao-ui-admin-vue3` (opens new window)](https://github.com/yudaocode/yudao-ui-admin-vue3)管理后台，后端访问 `/admin-api/**` RESTful API 接口。
+- MemberUser 会员用户，前端访问 [`yudao-mall-uniapp` (opens new window)](https://gitee.com/yudaocode/yudao-mall-uniapp)用户 App，后端访问 `/app-api/**` RESTful API 接口。
+
+虽然是不同类型的用户，他们访问 RESTful API 接口时，都通过 Token 认证机制
+
+### 表结构
+
+>  2 种类型的时候，采用不同数据库的表进行存储，管理员用户对应 [`system_users` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/dal/dataobject/user/AdminUserDO.java)表，会员用户对应 [`member_user` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-member/yudao-module-member-biz/src/main/java/cn/iocoder/yudao/module/member/dal/dataobject/user/MemberUserDO.java)表
+
+*为什么不使用统一的用户表？*
+
+*确实可以采用这样的方案，新增 `type` 字段区分用户类型。不同用户类型的信息字段，例如说上图的 `dept_id`、`post_ids` 等等，可以增加拓展表，或者就干脆“冗余”在用户表中。*
+
+*不过实际项目中，不同类型的用户往往是不同的团队维护，并且这也是绝大多团队的实践，所以我们采用了多个用户表的方案。*
+
+`如果表需要关联多种类型的用户，例如说上述的 system_oauth2_access_token 访问令牌表，可以通过 user_type 字段进行区分。并且 user_type 对应 [UserTypeEnum (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/enums/UserTypeEnum.java)全局枚举`
+
+### 获取当前登录用户
+
+> 使用 [SecurityFrameworkUtils (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-framework/yudao-spring-boot-starter-security/src/main/java/cn/iocoder/yudao/framework/security/core/util/SecurityFrameworkUtils.java)提供的如下方法，可以获得当前登录用户的信息
+
+```java
+// 获取当前用户信息
+public static LoginUser getLoginUser();
+// 获取当前用户编号
+public static Long getLoginUserId();
+// 获取当前用户昵称(仅适合 AdminUser 管理员用户)
+public static LoginUser getLoginUserNickname();
+// 获取当前用户部门(仅适合 AdminUser 管理员用户)
+public static Long getLoginUserDeptId();
+```
+
+> 获取更多用户信息
+
+① 在 OAuth2TokenServiceImpl 的 `#buildUserInfo(...)` 方法中，补充读取更多的用户信息，例如说 `mobile`、`sex` 等等。
+
+② 在 SecurityFrameworkUtils 新增对应的 `getXXX()` 静态方法，
+
+### 账号密码登录
+
+> 后台管理实现
+
+使用 `username` 账号 + `password` 密码进行登录，由 [AuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L55-L62)提供 `/admin-api/system/auth/login` 接口。代码如下：
+
+```java
+@PostMapping("/login")
+@Operation(summary = "使用账号密码登录")
+public CommonResult<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO reqVO) {
+    String token = authService.login(reqVO, getClientIP(), getUserAgent());
+    // 返回结果
+    return success(AuthLoginRespVO.builder().token(token).build());
+}
+```
+
+`如何关闭验证码？`
+
+`参见 [《后端手册 —— 验证码》](https://doc.iocoder.cn/captcha/) 文档`
+
+> 用户APP实现
+
+使用 `mobile` 手机 + `password` 密码进行登录，由 [AppAuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-member/yudao-module-member-biz/src/main/java/cn/iocoder/yudao/module/member/controller/app/auth/AppAuthController.java#L34-L41)提供 `/app-api/member/auth/login` 接口。代码如下：
+
+```java
+@PostMapping("/login")
+@Operation(summary = "使用手机 + 密码登录")
+public CommonResult<AppAuthLoginRespVO> login(@RequestBody @Valid AppAuthLoginReqVO reqVO) {
+    String token = authService.login(reqVO, getClientIP(), getUserAgent());
+    // 返回结果
+    return success(AppAuthLoginRespVO.builder().token(token).build());
+}
+```
+
+### 手机验证码登录
+
+> 管理后台实现
+
+① 使用 `mobile` 手机号获得验证码，由 [AuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L105-L111)提供 `/admin-api/system/auth/send-sms-code` 接口。代码如下：
+
+```java
+@PostMapping("/send-sms-code")
+@Operation(summary = "发送手机验证码")
+public CommonResult<Boolean> sendSmsCode(@RequestBody @Valid AuthSendSmsReqVO reqVO) {
+    authService.sendSmsCode(getLoginUserId(), reqVO);
+    return success(true);
+}
+```
+
+② 使用 `mobile` 手机 + `code` 验证码进行登录，由 [AppAuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L96-L103)提供 `/admin-api/system/auth/sms-login` 接口。代码如下：
+
+```java
+@PostMapping("/sms-login")
+@Operation(summary = "使用短信验证码登录")
+public CommonResult<AuthLoginRespVO> smsLogin(@RequestBody @Valid AuthSmsLoginReqVO reqVO) {
+    String token = authService.smsLogin(reqVO, getClientIP(), getUserAgent());
+    // 返回结果
+    return success(AuthLoginRespVO.builder().token(token).build());
+}
+```
+
+> 用户APP实现
+
+① 使用 `mobile` 手机号获得验证码，由 [AppAuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-member/yudao-module-member-biz/src/main/java/cn/iocoder/yudao/module/member/controller/app/auth/AppAuthController.java#L52-L58)提供 `/app-api/member/auth/send-sms-code` 接口。代码如下
+
+```java
+@PostMapping("/send-sms-code")
+@Operation(summary = "发送手机验证码")
+public CommonResult<Boolean> sendSmsCode(@RequestBody @Valid AppAuthSendSmsReqVO reqVO) {
+    authService.sendSmsCode(getLoginUserId(), reqVO);
+    return success(true);
+}
+```
+
+② 使用 `mobile` 手机 + `code` 验证码进行登录，由 [AppAuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-member/yudao-module-member-biz/src/main/java/cn/iocoder/yudao/module/member/controller/app/auth/AppAuthController.java#L43-L50)提供 `/app-api/member/auth/sms-login` 接口。
+
+```java
+@PostMapping("/sms-login")
+@Operation(summary = "使用手机 + 验证码登录")
+public CommonResult<AppAuthLoginRespVO> smsLogin(@RequestBody @Valid AppAuthSmsLoginReqVO reqVO) {
+    String token = authService.smsLogin(reqVO, getClientIP(), getUserAgent());
+    // 返回结果
+    return success(AppAuthLoginRespVO.builder().token(token).build());
+}
+```
+
+如果用户未注册，会自动使用手机号进行注册会员用户。**所以，`/app-api/member/user/sms-login` 接口也提供了用户注册的功能**。
+
+### 三方登录
+
+详细参见 [《开发指南 —— 三方登录》](https://doc.iocoder.cn/social-user) 文章。
+
+> 后台管理实现
+
+① 跳转第三方平台，来获得三方授权码，由 [AuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L97-L106)提供 `/admin-api/system/auth/social-auth-redirect` 接口。
+
+```java
+@GetMapping("/social-auth-redirect")
+@Operation(summary = "社交授权的跳转")
+@Parameters({
+        @Parameter(name = "type", description = "社交类型", required = true),
+        @Parameter(name = "redirectUri", description = "回调路径")
+})
+public CommonResult<String> socialAuthRedirect(@RequestParam("type") Integer type,
+                                                @RequestParam("redirectUri") String redirectUri) {
+    return CommonResult.success(socialUserService.getAuthorizeUrl(type, redirectUri));
+}
+```
+
+② 使用 `code` 三方授权码进行快登录，由 [AuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L149-L154)提供 `/admin-api/system/auth/social-login` 接口。代码如下
+
+```java
+@PostMapping("/social-login")
+@Operation(summary = "社交快捷登录，使用 code 授权码")
+public CommonResult<AuthLoginRespVO> socialQuickLogin(@RequestBody @Valid AuthSocialQuickLoginReqVO reqVO) {
+    String token = authService.socialLogin(reqVO, getClientIP(), getUserAgent());
+    // 返回结果
+    return success(AuthLoginRespVO.builder().token(token).build());
+}
+```
+
+③ 使用 `socialCode` 三方授权码 + `username` + `password` 进行绑定登录，直接使用 `/admin-api/system/auth/login` 账号密码登录的接口，区别在于额外带上 `socialType` + `socialCode` + `socialState` 参数
+
+> 用户App实现
+
+① 跳转第三方平台，来获得三方授权码，由 [AppAuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-member/yudao-module-member-biz/src/main/java/cn/iocoder/yudao/module/member/controller/app/auth/AppAuthController.java#L96-L105)提供 `/app-api/member/auth/social-auth-redirect` 接口。代码如下
+
+```java
+@GetMapping("/social-auth-redirect")
+@Operation(summary = "社交授权的跳转")
+@Parameters({
+        @Parameter(name = "type", description = "社交类型", required = true),
+        @Parameter(name = "redirectUri", description = "回调路径")
+})
+public CommonResult<String> socialAuthRedirect(@RequestParam("type") Integer type,
+                                               @RequestParam("redirectUri") String redirectUri) {
+    return CommonResult.success(socialUserService.getAuthorizeUrl(type, redirectUri));
+}
+```
+
+② 使用 `code` 三方授权码进行快登录，由 [AppAuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-member/yudao-module-member-biz/src/main/java/cn/iocoder/yudao/module/member/controller/app/auth/AppAuthController.java#L107-L111)提供 `/app-api/member/auth/social-login` 接口。代码如下：
+
+```java
+@PostMapping("/social-login")
+@Operation(summary = "社交快捷登录，使用 code 授权码")
+public CommonResult<AppAuthLoginRespVO> socialQuickLogin(@RequestBody @Valid AuthSocialQuickLoginReqVO reqVO) {
+    String token = authService.socialLogin(reqVO, getClientIP(), getUserAgent());
+    // 返回结果
+    return success(AuthLoginRespVO.builder().token(token).build());
+}
+```
+
+③ 使用 `socialCode` 三方授权码 + `username` + `password` 进行绑定登录，直接使用 `/app-api/system/auth/login` 手机验证码登录的接口，区别在于额外带上 `socialType` + `socialCode` + `socialState` 参数。
+
+④ 【微信小程序特有】使用 `phoneCode` + `loginCode` 实现获取手机号并一键登录，由 [AppAuthController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-member/yudao-module-member-biz/src/main/java/cn/iocoder/yudao/module/member/controller/app/auth/AppAuthController.java#L113-L117)提供 `/app-api/member/auth/weixin-mini-app-login` 接口。代码如下：
+
+```java
+@PostMapping("/weixin-mini-app-login")
+@Operation(summary = "微信小程序的一键登录")
+public CommonResult<AppAuthLoginRespVO> weixinMiniAppLogin(@RequestBody @Valid AppAuthWeixinMiniAppLoginReqVO reqVO) {
+    return success(authService.weixinMiniAppLogin(reqVO));
+}
+```
+
+###  注册
+
+> 后台管理实现
+
+管理后台暂不支持用户注册，而是通过在 [系统管理 -> 用户管理] 菜单，进行添加用户，由 [UserController (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/user/UserController.java#L48-L54)提供 `/admin-api/system/user/create` 接口。代码如下：
+
+```java
+@PostMapping("/create")
+@Operation(summary = "新增用户")
+@PreAuthorize("@ss.hasPermission('system:user:create')")
+public CommonResult<Long> createUser(@Valid @RequestBody UserCreateReqVO reqVO) {
+    Long id = userService.createUser(reqVO);
+    return success(id);
+}
+```
+
+> 用户App实现
+
+手机验证码登录时，如果用户未注册，会自动使用手机号进行注册会员用户。**所以，`/app-api/system/user/sms-login` 接口也提供了用户注册的功能**。
+
+### 用户登出
+
+用户登出的功能，统一使用 Spring Security 框架，通过删除用户 Token 的方式来实现。代码如下
+
+差别在于使用的 API 接口不同，管理员用户使用 `/admin-api/system/logout`，会员用户使用 `/app-api/member/logout`。
+
+## 三方登录
+
+系统对接国内多个第三方平台，实现三方登录的功能。例如说：
+
+- 管理后台：企业微信、阿里钉钉
+- 用户 App：微信公众号、微信小程序
+
+### 表结构
+
+① 三方登录完成时，系统会将三方用户存储到 [`system_social_user` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/dal/dataobject/social/SocialUserDO.java)表中，通过 [`type` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-api/src/main/java/cn/iocoder/yudao/module/system/enums/social/SocialTypeEnum.java)标记对应的第三方平台。
+
+② 【未】关联本系统 User 的三方用户，需要在三方登录完成后，使用账号密码进行「**绑定登录**」，成功后记录到 [`system_social_user_bind` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/dal/dataobject/social/SocialUserBindDO.java)表中。
+
+【已】关联本系统 User 的三方用户，在三方登录完成后，直接进入系统，即「**快捷登录**」
+
+### 绑定登录
+
+① 使用浏览器访问 [http://127.0.0.1:1024/login (opens new window)](http://127.0.0.1:1024/login)地址，点击 [钉钉] 或者 [企业微信] 进行三方登录。此时，会调用 [`/admin-api/system/auth/social-auth-redirect` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L97-L106)接口，获得第三方平台的登录地址，并进行跳转。然后，使用 [钉钉] 或者 [企业微信] 进行扫码，完成三方登录。
+
+② 三方登录成功后，跳转回 [http://127.0.0.1:1024/social-login (opens new window)](http://127.0.0.1:1024/social-login)地址。此时，会调用 [`/admin-api/system/auth/social-login` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L149-L154)接口，尝试「快捷登录」。由于该三方用户【未】关联管理后台的 AdminUser 用户，所以会看到 “未绑定账号，需要进行绑定” 报错。
+
+③ 输入账号密码，点击 [提交] 按钮，进行「绑定登录」。此时，会调用 [`/admin-api/system/auth/login` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L61-L66)接口（在账号密码登录的基础上，额外带上 `socialType` + `socialCode` + `socialState` 参数）。成功后，即可进入系统的首页。
+
+### 快捷登录
+
+退出系统，再进行一次三方登录的流程。
+
+【相同】① 使用浏览器访问 [http://127.0.0.1:1024/login (opens new window)](http://127.0.0.1:1024/login)地址，点击 [钉钉] 或者 [企业微信] 进行三方登录。此时，会调用 [`/admin-api/system/auth/social-auth-redirect` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L97-L106)接口，获得第三方平台的登录地址，并进行跳转。
+
+【不同】② 三方登录成功后，跳转回 [http://127.0.0.1:1024/social-login (opens new window)](http://127.0.0.1:1024/social-login)地址。此时，会调用 [`/admin-api/system/auth/social-login` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-module-system/yudao-module-system-biz/src/main/java/cn/iocoder/yudao/module/system/controller/admin/auth/AuthController.java#L149-L154)接口，尝试「快捷登录」。由于该三方用户【已】关联管理后台的 AdminUser 用户，所以直接进入系统的首页。
+
+### 解绑与绑定
+
+访问 [http://127.0.0.1:1024/user/profile (opens new window)](http://127.0.0.1:1024/user/profile)地址，选择 [社交信息] 选项，可以三方用户的绑定与解绑
+
+### 配置管理
+
+> 配置文件
+
+在 [`application-{env}.yaml` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro/blob/master/yudao-server/src/main/resources/application-local.yaml#L196-L211)配置文件中，对应 `justauth` 配置项，填写你的第三方平台的配置信息。
+
+系统使用 [JustAuth (opens new window)](https://gitee.com/yudaocode/justauth)组件，想要对接其它第三方平台，只需要新增对应的配置信息即可。
+
+> 数据库配置
+
+① `system_social_client` 表，它本质上是 JustAuth 配置的 DB 存储。
+
+```sql
+CREATE TABLE `system_social_client` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '应用名',
+  `status` tinyint NOT NULL COMMENT '状态',
+  // JustAuth 配置项
+  `social_type` tinyint NOT NULL COMMENT '社交平台的类型',
+  `client_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '客户端编号',
+  `client_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '客户端密钥',
+  `agent_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '代理编号',
+  // 目的 1
+  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户编号',
+  // 目的 2
+  `user_type` tinyint NOT NULL COMMENT '用户类型',
+  // ... 省略其它非关键字段
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='社交客户端表';
+```
+
+1. `在需要 SaaS 多租户的项目中，通过 tenant_id 字段隔离，实现不同租户对应不同第三方平台的配置`
+2. `在多用户类型的项目中，通过 user_type 字段区分，实现不同用户类型对应不同第三方平台的配置`
+
+`注意，system_social_client 表的优先级，比 application-{env}.yaml 配置文件高！具体逻辑，可见 SocialClientServiceImpl 类的 #buildAuthRequest(...) 方法。`
+
+*疑问：系统目前支持指定租户 + 用户类型 + 社交平台，对应多套配置吗？*
+
+*不支持，需要自己改造。总体思路是：*
+
+1. *`system_social_client` 额外再增加一个 `application` 应用字段，存储应用名，进行一步隔离*
+2. *前端调用三方登录时，额外传递 `application` 应用字段，用于查询对应应用的配置*
+
+② 在 [系统管理 -> 三方登录 -> 三方应用] 菜单下，可以进行**当前租户**的 `system_social_client` 表的配置管理。如下图所示：
+
+另外，在 [系统管理 -> 三方登录 -> 三方用户] 菜单下，可以进行**当前租户**的 `system_social_user` 三方用户表的查询。如下图所示：
+
+### 三方平台申请
+
+- [阿里钉钉(opens new window)](https://justauth.cn/guide/oauth/dingtalk/)
+- [企业微信扫码登录(opens new window)](https://justauth.cn/guide/oauth/wechat_enterprise_qrcode/)
+- [微信开放平台(opens new window)](https://justauth.cn/guide/oauth/wechat_open/)
+
+注意，如果第三方平台如果需要配置具体的授信地址，需要添加 `/social-login` 用于三方登录回调页、`/user/profile` 用于三方用户的绑定与解绑。
+
+## OAuth 2.0（SSO 单点登录)
+
+### OAuth 2.0 是什么？
+
+OAuth 2.0 的概念讲解，可以阅读如下三篇文章：
+
+- [《理解 OAuth 2.0》(opens new window)](https://www.iocoder.cn/Fight/ruanyifeng-oauth_2_0/?self)
+- [《OAuth 2.0 的一个简单解释》(opens new window)](https://www.iocoder.cn/Fight/ruanyifeng-oauth_design/?self)
+- [《OAuth 2.0 的四种方式》(opens new window)](https://www.iocoder.cn/Fight/ruanyifeng-oauth-grant-types/?self)
+
+重点是理解 **授权码模式** 和 **密码模式**，它们是最常用的两种授权模式。
+
+本文，我们也会基于它们，分别实现 SSO 单点登录。
+
+### OAuth 2.0 授权模式的选择？
+
