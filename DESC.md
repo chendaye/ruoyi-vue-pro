@@ -1013,19 +1013,29 @@ CREATE TABLE `system_social_client` (
 
 注意，如果第三方平台如果需要配置具体的授信地址，需要添加 `/social-login` 用于三方登录回调页、`/user/profile` 用于三方用户的绑定与解绑。
 
-## OAuth 2.0（SSO 单点登录)
+## SaaS 多租户【字段隔离】
 
-### OAuth 2.0 是什么？
+### 何为多租户
 
-OAuth 2.0 的概念讲解，可以阅读如下三篇文章：
+多租户，简单来说是指**一个**业务系统，可以为**多个**组织服务，并且组织之间的数据是**隔离**的。
 
-- [《理解 OAuth 2.0》(opens new window)](https://www.iocoder.cn/Fight/ruanyifeng-oauth_2_0/?self)
-- [《OAuth 2.0 的一个简单解释》(opens new window)](https://www.iocoder.cn/Fight/ruanyifeng-oauth_design/?self)
-- [《OAuth 2.0 的四种方式》(opens new window)](https://www.iocoder.cn/Fight/ruanyifeng-oauth-grant-types/?self)
+例如说，在服务上部署了一个 [`ruoyi-vue-pro` (opens new window)](https://github.com/YunaiV/ruoyi-vue-pro)系统，可以支持多个不同的公司使用。这里的**一个公司就是一个租户**，每个用户必然属于某个租户。因此，用户也只能看见自己租户下面的内容，其它租户的内容对他是不可见的。
 
-重点是理解 **授权码模式** 和 **密码模式**，它们是最常用的两种授权模式。
+### 数据隔离方案
 
-本文，我们也会基于它们，分别实现 SSO 单点登录。
+多租户的数据隔离方案，可以分成分成三种：
 
-### OAuth 2.0 授权模式的选择？
+1. DATASOURCE 模式：独立数据库
+2. SCHEMA 模式：共享数据库，独立 Schema
+3. COLUMN 模式：共享数据库，共享 Schema，共享数据表
+
+### 多租户开关
+
+系统有两个配置项，设置为 `true` 时开启多租户，设置为 `false` 时关闭多租户
+
+注意，两者需要保持一致，否则会报错！
+
+> 后端开关：yudao.server.tenant
+
+> 前端开关：VUE_APP_TENANT_ENABLE
 
