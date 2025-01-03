@@ -33,7 +33,12 @@ git rebase master  #把刚刚拉取的更新merge到dev分支
 
 > google 安装插件：Tampermonkey(篡改猴)
 
+[下载地址](https://www.tampermonkey.net/changelog.php?version=5.3.3&ext=iikm&updated=true&old=5.3.2&intr=true)
+
 > 脚本(Fuck-Yudao)
+
+[下载地址](https://greasyfork.org/zh-CN/scripts/494723-yudao/feedback)
+
 ```javascript
 
 // ==UserScript==
