@@ -23,6 +23,47 @@ git rebase master  #把刚刚拉取的更新merge到dev分支
 
 ```
 
+`rebase，变基，可以直接理解为改变基底。feature分支是基于master分支的B拉出来的分支，feature的基底是B。
+而master在B之后有新的提交，就相当于此时要用master上新的提交来作为feature分支的新基底。
+实际操作为把B之后feature的提交先暂存下来，然后删掉原来这些提交，再找到master的最新提交位置，
+把存下来的提交再接上去（接上去是逐个和新基底处理冲突的过程），如此feature分支的基底就相当于变成了M而不是原来的B了。
+（注意，如果master上在B以后没有新提交，那么就还是用原来的B作为基，rebase操作相当于无效，此时和git merge就基本没区别了，
+差异只在于git merge会多一条记录Merge操作的提交记录）
+
+原文链接：https://blog.csdn.net/weixin_42310154/article/details/119004977`
+
+```bash
+# 生成本地ssh-key
+ssh-keygen -t rsa
+
+# ruoyi-vue-pro
+git clone git@github.com:chendaye/ruoyi-vue-pro.git
+git checkout origin/dev -b dev
+
+git remote add upstream https://github.com/YunaiV/ruoyi-vue-pro.git
+git fetch upstream master-jdk17
+git checkout upstream/master-jdk17 -b master-jdk17
+
+
+# yudao-ui-admin-vue3
+git clone git@github.com:chendaye/yudao-ui-admin-vue3.git
+git checkout origin/dev -b dev
+
+git remote add upstream https://github.com/yudaocode/yudao-ui-admin-vue3.git
+git fetch upstream master-jdk17
+git checkout upstream/master-jdk17 -b master-jdk17
+ 
+# yudao-mall-uniapp
+git clone git@github.com:chendaye/yudao-mall-uniapp.git
+git checkout origin/dev -b dev
+
+git remote add upstream https://github.com/yudaocode/yudao-ui-admin-vue3.git
+git fetch upstream master-jdk17
+git checkout upstream/master-jdk17 -b master-jdk17
+
+```
+
+
 # 运行后端项目
 
 ## 开发文档
