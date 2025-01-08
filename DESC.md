@@ -1,4 +1,7 @@
 # 开发说明
+
+## git 
+
 - dev 是本地开发分支
 - master-jdk17 是本地同步分支；始终与源仓库分支一致
 - dev 合并源仓库更新，通过，在本地master-jdk17 分支上 rebase
@@ -50,8 +53,8 @@ git clone git@github.com:chendaye/yudao-ui-admin-vue3.git
 git checkout origin/dev -b dev
 
 git remote add upstream https://github.com/yudaocode/yudao-ui-admin-vue3.git
-git fetch upstream master-jdk17
-git checkout upstream/master-jdk17 -b master-jdk17
+git fetch upstream master
+git checkout upstream/master -b master-jdk17
  
 # yudao-mall-uniapp
 git clone git@github.com:chendaye/yudao-mall-uniapp.git
@@ -63,6 +66,28 @@ git checkout upstream/master-jdk17 -b master-jdk17
 
 ```
 
+## 软件版本
+
+- apache-maven-3.9.9-bin
+- HBuilderX.4.45
+- datagrip-2023.2.3.exe
+- ideaIU-2021.3.3.exe
+- jdk-17.0.13_windows-x64_bin.exe
+- mysql-8.4.3-winx64.msi
+- node-v22.11.0-x64.msi
+- Redis-x64-5.0.14.msi
+- VSCodeUserSetup-x64-1.95.0-insider.exe
+
+## ide
+
+[HbuildX 官网](https://hx.dcloud.net.cn/Tutorial/StartedTutorial)
+[uni-app 官网](https://uniapp.dcloud.net.cn/tutorial/vue3-basics.html)
+
+## wx 小程序开发教程
+[从零开始uniapp微信小程序项目到发布](https://blog.csdn.net/m0_50934746/article/details/131718135)
+[wx小程序开发](https://blog.csdn.net/m0_64875238/article/details/127796691)
+[uniapp开发微信小程序](https://blog.csdn.net/weixin_43742274/article/details/112232268)
+[uni-app小程序开发](https://developers.weixin.qq.com/community/develop/article/doc/000c68f5068d40940ce0dce586b813)
 
 # 运行后端项目
 
@@ -1207,3 +1232,58 @@ WebSocket(下行：发消息给前端) + HTTP(上行：发消息给后端)
 ### 钱包充值、支付、退款
 
 ### 模拟支付、退款
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Product
+
+## 架构
+
+- 后端基于 `ruoyi-vue-pro` 保持同步更新。**原则：只新增，不修改**
+- 管理端web基于`yudao-ui-admin-vue3`。**原则：只新增，不修改**
+- 小程序基于`yudao-mall-uniapp`，发布wx、dy、ks、xhs。**原则：只新增、隐藏，不修改**
+
+## 开发部署
+
+前期:云服务器(Windows),开发部署一体
+后期：云服务器(Linux)部署
+
+## marketing
+
+> 一开始就success的概率很低
+
+- 首页
+  - 分类(AIGC)
+    - 文字生成
+        - 问答
+        - 写作
+        - 运势、梦(...)
+    - 图生成
+        - 文生图
+            - logo生成(...)
+        - 图生图
+            - 新media(...) 
+    - 音频
+        - 文字转音频
+        - 声音克隆
+        - 音乐生成
+    - 视频
+        - 文生视频
+        - 图生视频
+- 体验
+- 购买
+- 营销
