@@ -84,10 +84,27 @@ git checkout upstream/master-jdk17 -b master-jdk17
 [uni-app 官网](https://uniapp.dcloud.net.cn/tutorial/vue3-basics.html)
 
 ## wx 小程序开发教程
+[个人接入](https://open.pay.yungouos.com/#/api/rule)
+[个人开发者接入微信支付的可行方式](https://developers.weixin.qq.com/community/develop/article/doc/0004c88a84c3b8aaf7722f88465c13)
+[人微信支付新手攻略整理](https://developers.weixin.qq.com/community/develop/article/doc/000c2844ef8e4872210c4815b5b413)
+[微信支付接入](https://pay.weixin.qq.com/static/applyment_guide/applyment_detail_miniapp.shtml)
+[微信公众平台](https://mp.weixin.qq.com/)
 [从零开始uniapp微信小程序项目到发布](https://blog.csdn.net/m0_50934746/article/details/131718135)
 [wx小程序开发](https://blog.csdn.net/m0_64875238/article/details/127796691)
 [uniapp开发微信小程序](https://blog.csdn.net/weixin_43742274/article/details/112232268)
 [uni-app小程序开发](https://developers.weixin.qq.com/community/develop/article/doc/000c68f5068d40940ce0dce586b813)
+
+
+[SpringBoot AI](https://segmentfault.com/a/1190000044944825)
+
+[个户](https://www.taxspirit.com/2020/4101.html)
+[申请](http://bsy.sz.bendibao.com/bsyDetail/611245.html#:~:text=%E6%B7%B1%E5%9C%B3%E4%B8%AA%E4%BD%93%E5%B7%A5%E5%95%86%E6%88%B7%E7%99%BB%E8%AE%B0%E5%8A%9E%E7%90%86%E6%8C%87%E5%8D%97%201%201%E3%80%81%E7%94%B3%E8%AF%B7%E5%8F%8A%E5%8F%97%E7%90%86%20%E7%9B%AE%E5%89%8D%E7%94%B3%E8%AF%B7%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E5%9C%A8%E7%BD%91%E4%B8%8A%E5%8A%9E%E7%90%86%EF%BC%8C%E6%97%A0%E9%9C%80%E5%89%8D%E5%BE%80%E7%8E%B0%E5%9C%BA%EF%BC%8C%E5%B8%82%E6%B0%91%E5%8F%AA%E9%9C%80%E7%99%BB%E9%99%86%E5%B9%BF%E4%B8%9C%E6%94%BF%E5%8A%A1%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%8F%90%E5%87%BA%E7%94%B3%E8%AF%B7%EF%BC%8C%E7%BD%91%E4%B8%8A%E4%BC%9A%E6%8C%87%E5%BC%95%E5%A4%A7%E5%AE%B6%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E8%BF%9B%E8%A1%8C%EF%BC%8C%E5%8F%AA%E9%9C%80%E6%8C%89%E7%85%A7%E6%8F%90%E7%A4%BA%E5%A1%AB%E5%86%99%E5%86%85%E5%AE%B9%E5%8D%B3%E5%8F%AF%EF%BC%8C%E5%8F%97%E7%90%86%E5%90%8E%E4%BC%9A%E5%9C%A83%E4%B8%AA%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%81%9A%E5%87%BA%E6%98%AF%E5%90%A6%E5%8F%97%E7%90%86%E5%86%B3%E5%AE%9A%EF%BC%88%E7%82%B9%E5%87%BB%E8%BF%9B%E5%85%A5%EF%BC%8C%E7%94%B3%E8%AF%B7%E5%85%A5%E5%8F%A3%EF%BC%89%202%202%E3%80%81%E5%AE%A1%E6%A0%B8%20%E5%AE%A1%E6%A0%B8%E4%BA%BA%E5%91%98%E4%BC%9A%E5%AF%B9%E4%BD%A0%E6%8F%90%E4%BA%A4%E7%9A%84%E5%86%85%E5%AE%B9%E8%BF%9B%E8%A1%8C%E5%AE%A1%E6%A0%B8%E5%AE%A1%E6%89%B9%EF%BC%8C%E8%BF%99%E4%B8%AA%E8%BF%87%E7%A8%8B%E4%B8%80%E8%88%AC%E9%9C%80%E8%A6%813%E4%B8%AA%E5%B7%A5%E4%BD%9C%E6%97%A5%203,%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%201%E3%80%81%E5%8A%9E%E7%90%86%E6%97%B6%E9%97%B4%E4%BB%A5%E5%AE%9E%E9%99%85%E4%B8%BA%E5%87%86%EF%BC%8C%E4%BB%A5%E4%B8%8A%E5%91%8A%E7%9F%A5%E7%9A%84%E4%B8%BA%E5%AE%98%E6%96%B9%E8%A7%84%E5%AE%9A%E7%9A%84%E6%97%B6%E9%97%B4%202%E3%80%81%E5%A6%82%E6%9E%9C%E5%8E%BB%E7%8E%B0%E5%9C%BA%E5%8A%9E%E7%90%86%E7%9A%84%E4%B8%9A%E5%8A%A1%E7%9A%84%EF%BC%8C%E8%BF%98%E9%9C%80%E6%90%BA%E5%B8%A6%E6%9C%AC%E4%BA%BA%E7%9A%84%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%8E%9F%E4%BB%B6%E5%A4%8D%E5%8D%B0%E4%BB%B6%E5%92%8C%E3%80%8A%E4%B8%AA%E4%BD%93%E5%B7%A5%E5%95%86%E6%88%B7%E8%AE%BE%E7%AB%8B%E7%99%BB%E8%AE%B0%EF%BC%88%E4%B8%80%E7%85%A7%E4%B8%80%E7%A0%81%EF%BC%89%E7%94%B3%E8%AF%B7%E4%B9%A6%E3%80%8B%20%E5%85%B6%E4%BB%96%E9%A1%BB%E7%9F%A5%20%E5%8A%9E%E7%90%86%E8%B4%B9%E7%94%A8%20%E4%B8%8D%E6%94%B6%E5%8F%96%E4%BB%BB%E4%BD%95%E8%B4%B9%E7%94%A8%20%E5%92%A8%E8%AF%A2%E7%94%B5%E8%AF%9D%20)
+
+## 流程
+
+> uniapp - 登录 - 后端
+> uniapp - pay - 后端
+> uniapp - ai - 后端
 
 # 运行后端项目
 
