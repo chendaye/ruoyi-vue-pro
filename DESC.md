@@ -85,8 +85,8 @@ git checkout upstream/master-jdk17 -b master-jdk17
 
 ## wx 小程序开发教程
 [个人接入](https://open.pay.yungouos.com/#/api/rule)
-[个人开发者接入微信支付的可行方式](https://developers.weixin.qq.com/community/develop/article/doc/0004c88a84c3b8aaf7722f88465c13)
-[人微信支付新手攻略整理](https://developers.weixin.qq.com/community/develop/article/doc/000c2844ef8e4872210c4815b5b413)
+[个人wxzf的可行方式](https://developers.weixin.qq.com/community/develop/article/doc/0004c88a84c3b8aaf7722f88465c13)
+[grwxzf](https://developers.weixin.qq.com/community/develop/article/doc/000c2844ef8e4872210c4815b5b413)
 [微信支付接入](https://pay.weixin.qq.com/static/applyment_guide/applyment_detail_miniapp.shtml)
 [微信公众平台](https://mp.weixin.qq.com/)
 [从零开始uniapp微信小程序项目到发布](https://blog.csdn.net/m0_50934746/article/details/131718135)
@@ -228,8 +228,15 @@ git checkout upstream/master-jdk17 -b master-jdk17
 [apt清华源](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)
 
 ① 先点击「示例项目」，再点击「+」按钮，选择「导入」选项。
-② 先选择「URL 导入」按钮，填写 Swagger 数据 URL 为 http://127.0.0.1:48081/v3/api-docs 。如果失败，则可以尝试 http://127.0.0.1:48080/v3/api-docs/all 解决。
+② 先选择「URL 导入」按钮，填写 Swagger 数据 URL 为 http://127.0.0.1:48081/v3/api-docs 。如果失败，则可以尝试 **http://127.0.0.1:48080/v3/api-docs/all** 解决。
 ③ 先点击「提交」按钮，再点击「确认导入」按钮，完成 API 接口的导入。
+
+```
+选择测试环境
+
+tenant-id：1
+Authorization：Bearer test1
+```
 
 ## 安装Mysql
 
