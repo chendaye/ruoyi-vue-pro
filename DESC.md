@@ -103,6 +103,7 @@ git checkout upstream/master-jdk17 -b master-jdk17
 ## 流程
 
 > uniapp - 登录 - 后端
+> uniapp - crud - 后端
 > uniapp - pay - 后端
 > uniapp - ai - 后端
 
