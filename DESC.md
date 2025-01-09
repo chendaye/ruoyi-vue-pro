@@ -227,6 +227,10 @@ git checkout upstream/master-jdk17 -b master-jdk17
 [下载地址](https://apifox.com/?utm_source=baidu_pinzhuan&utm_medium=sem&utm_campaign=pinzhuan&utm_content=pinzhuan&utm_term=apifox)
 [apt清华源](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)
 
+① 先点击「示例项目」，再点击「+」按钮，选择「导入」选项。
+② 先选择「URL 导入」按钮，填写 Swagger 数据 URL 为 http://127.0.0.1:48081/v3/api-docs 。如果失败，则可以尝试 http://127.0.0.1:48080/v3/api-docs/all 解决。
+③ 先点击「提交」按钮，再点击「确认导入」按钮，完成 API 接口的导入。
+
 ## 安装Mysql
 
 ### 麒麟
