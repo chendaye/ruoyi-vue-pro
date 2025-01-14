@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.demo.controller.app;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +19,9 @@ public class AppDemoTestController {
 
     @GetMapping("/get")
     @Operation(summary = "获取 test 信息")
+    @PermitAll // 接口无需鉴权
     public CommonResult<String> get() {
-        return success("true");
+        return success("测试app接口！");
     }
 
 }

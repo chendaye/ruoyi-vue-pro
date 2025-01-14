@@ -94,7 +94,16 @@ git checkout upstream/master-jdk17 -b master-jdk17
 [uniapp开发微信小程序](https://blog.csdn.net/weixin_43742274/article/details/112232268)
 [uni-app小程序开发](https://developers.weixin.qq.com/community/develop/article/doc/000c68f5068d40940ce0dce586b813)
 
+## vue3
+[vue3官网](https://cn.vuejs.org/api/sfc-script-setup.html)
+[vue3基础用法](https://uniapp.dcloud.net.cn/tutorial/vue3-basics.html)
+[vue3 steup 语法糖](https://juejin.cn/post/7009282373476941831)
+[vue3 steup 语法糖](https://www.cnblogs.com/qingheshiguang/p/15910627.html)
+[大白话透彻讲解 Promise 的使用](https://www.cnblogs.com/web-learn/p/15334323.html)
+[Vue-重温async和await的用法](https://juejin.cn/post/7005462384571596830)
+[Vue 3的ref()和reactive()使用方法](https://juejin.cn/post/7271459513094258747)
 
+## sprintboot-ai
 [SpringBoot AI](https://segmentfault.com/a/1190000044944825)
 
 [个户](https://www.taxspirit.com/2020/4101.html)
