@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import jakarta.annotation.Resource;
@@ -133,5 +134,18 @@ public class MemberUserServiceImplTest extends BaseDbAndRedisUnitTest {
         };
         return randomPojo(MemberUserDO.class, ArrayUtils.append(consumer, consumers));
     }
+
+    // ========== 生成密码 ==========
+    public static void main(String[] args) {
+        //创建解析器
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        //对密码进行加密
+        String password = encoder.encode("admin123");
+        System.out.println("------------"+password);
+        //判断原字符加密后和内容是否匹配
+        boolean result = encoder.matches("admin123",password);
+        System.out.println("============="+result);
+    }
+
 
 }
