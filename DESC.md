@@ -1371,3 +1371,25 @@ WebSocket(下行：发消息给前端) + HTTP(上行：发消息给后端)
 - 体验
 - 购买
 - 营销
+
+
+# 小程序开发
+
+## 数据表
+
+```sql
+--
+use rouyi-vue-pro;
+
+-- 
+select * from member_user;
+
+-- 更新密码
+update member_user  set  password='$2a$10$Jwg5gZIDFr0bkQr/CGs7beKF8QwIqpxp0vkT0XF5g7Nl5zhOvgzE.' where id='247';
+
+-- 查看字段
+show full columns from  trade_order;
+
+-- 新增字段
+ALTER TABLE trade_order  ADD COLUMN point_activity_id  bigint DEFAULT NULL COMMENT  'point_activity_id'  AFTER combination_record_id;
+```
